@@ -1,0 +1,36 @@
+{
+    "config": {
+      "flow_title": "Tuya Local configuration",
+      "step": {
+        "user": {
+          "title": "Connect to Tuya Device",
+          "description": "Enter Tuya Device Info.",
+          "data": {
+            "host": "[%key:common::config_flow::data::host%]",
+            "device_id": "[%key:common::config_flow::data::device_id%]",
+            "local_key": "[%key:common::config_flow::data::local_key%]",
+            "update_interval": "Time interval between updates. Default 20",
+            "need_add_switches": "Continue to add switches"
+          }
+        }, 
+        "add_switch": {
+            "title": "Add switch",
+            "description":"Leave Switch ID empty to finish configuration.",
+            "data": {
+                "id": "Switch ID",
+                "friendly_name": "Switch friendly name",
+                "need_add_switches": "Continue to add switches"
+            }
+        }
+      },
+      "abort": {
+        "conn_refused": "[%key:common::config_flow::error::conn_refused%]",
+        "conn_error_exists": "[%key:common::config_flow::error::conn_error_exists%]"
+      },
+      "error": {
+        "conn_refused": "[%key:common::config_flow::error::conn_refused%]",
+        "conn_error_exists": "[%key:common::config_flow::error::conn_error_exists%]"
+      }
+    }
+  }
+  

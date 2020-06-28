@@ -1,0 +1,9 @@
+{
+  "domain": "tuyalocal",
+  "name": "Tuya Local",
+  "documentation": "https://github.com/iwzoo/tuyalocal-homeassistant",
+  "dependencies": [],
+  "codeowners": ["@iwzoo"],
+  "requirements": [],
+  "config_flow": true
+}

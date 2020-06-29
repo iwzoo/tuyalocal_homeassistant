@@ -25,7 +25,7 @@ This custom component supports both HACS and legacy custom componennts methods.
 ## Setup
 This component supports config flow, so you can either configure it in configuration.yaml or add from frontend "Configuration -> Integrations"
 
-### YAML
+#### YAML
 ```
 switch:
   - platform: localtuya
@@ -40,7 +40,7 @@ switch:
 
 ```
 
-### Frontend Integration
+#### Frontend Integration
 1. Navigate to "Configuration -> Integrations"
 1. Click "+" in "Integrations" tab
 1. Enter "Tuya Local" in the search box and click to start configuration

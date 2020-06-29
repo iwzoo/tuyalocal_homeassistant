@@ -9,7 +9,7 @@
             "host": "IP address",
             "device_id": "Device ID",
             "local_key": "Local Key",
-            "update_interval": "Time interval between updates. Default 20",
+            "update_interval": "Time interval between updates. Default 10",
             "need_add_switches": "Continue to add switches"
           }
         },

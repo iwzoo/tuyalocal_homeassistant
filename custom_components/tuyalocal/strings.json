@@ -9,7 +9,7 @@
             "host": "[%key:common::config_flow::data::host%]",
             "device_id": "[%key:common::config_flow::data::device_id%]",
             "local_key": "[%key:common::config_flow::data::local_key%]",
-            "update_interval": "Time interval between updates. Default 20",
+            "update_interval": "Time interval between updates. Default 10",
             "need_add_switches": "Continue to add switches"
           }
         }, 

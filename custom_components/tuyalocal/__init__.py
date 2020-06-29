@@ -37,3 +37,8 @@ async def async_setup_entry(hass, config_entry):
     return True
 
     
+async def async_unload_entry(hass, entry):
+    """Unloading the Tuya platforms."""
+    return  await hass.config_entries.async_forward_entry_unload(
+        entry, SWITCH_DOMAIN
+    )

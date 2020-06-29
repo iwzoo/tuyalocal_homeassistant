@@ -26,7 +26,7 @@ DATA_SCHEMA_USER = vol.Schema(
         vol.Required(CONF_HOST): str,
         vol.Required(CONF_DEVICE_ID): str,
         vol.Required(CONF_LOCAL_KEY): str,
-        vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): vol.Coerce(int),
+        vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): vol.All(vol.Coerce(int), vol.Range(min=1)),
         vol.Optional(CONF_ADD_SWITCHES, default=False): bool
     }
 )
@@ -81,8 +81,9 @@ class LocalTuyaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         from . import pytuya
         try:
             device = pytuya.OutletDevice(self._device_id, self._host, self._local_key)
-            result = device.status()
+            _ = device.status()
         except Exception as ex:
+            _LOGGER.error("can't connect to the tuya device: {0}".format(ex))
             return RESULT_CONN_REFUSED
         return RESULT_SUCCESS
 
@@ -148,7 +149,7 @@ class LocalTuyaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             _LOGGER.debug(user_input)
             switch_id = user_input[CONF_ID]
-            switch_fn = user_input[CONF_FRIENDLY_NAME]
+            # switch_fn = user_input[CONF_FRIENDLY_NAME]
             if switch_id.strip()=='':
                 # just create the device
                 return self._get_entry()

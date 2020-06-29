@@ -1,14 +1,18 @@
 # Tuya Local Integration
+
 This is a custom component for home assistant to integrate Tuya switch device locally. 
 
 ## Requirements
+
 1. device id 
 1. local key of the device
 
 ## Install 
+
 This custom component supports both HACS and legacy custom componennts methods. 
 
-### HACS 
+##### HACS 
+
 1. Navigate to HACS
 1. Choose "Integrations"
 1. Choose "Custom repositories" from the menu at top right of the window
@@ -17,16 +21,19 @@ This custom component supports both HACS and legacy custom componennts methods.
 1. Click "Add" 
 1. Find "Tuya Local" and click "Install"
 
-### Legacy Method
+##### Legacy Method
+
 1. Download the files
 1. Copy the folder "custom_components/tuyalocal"  to your config folder
 
 
 ## Setup
+
 This component supports config flow, so you can either configure it in configuration.yaml or add from frontend "Configuration -> Integrations"
 
-#### YAML
-```
+##### YAML
+
+```yaml
 switch:
   - platform: localtuya
     host: 192.168.10.122  # (required) ip addres of the device
@@ -39,8 +46,10 @@ switch:
         id: 1
 
 ```
+_**update_interval** is different from **scan_interval**, this value limits the frequency between updates of a tuya device. Default value is 10, generally 3 seconds works fine._ 
 
-#### Frontend Integration
+##### Frontend Integration
+
 1. Navigate to "Configuration -> Integrations"
 1. Click "+" in "Integrations" tab
 1. Enter "Tuya Local" in the search box and click to start configuration

@@ -2,6 +2,7 @@
   "domain": "tuyalocal",
   "name": "Tuya Local",
   "documentation": "https://github.com/iwzoo/tuyalocal-homeassistant",
+  "issue_tracker": "https://github.com/iwzoo/tuyalocal_homeassistant/issues",
   "dependencies": [],
   "codeowners": ["@iwzoo"],
   "requirements": [],

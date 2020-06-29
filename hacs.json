@@ -2,5 +2,6 @@
     "name": "Tuya Local Integration",
     "content_in_root": false,
     "render_readme": true,
-    "iot_class": "local_polling"
+    "iot_class": "local_polling",
+    "homeassistant": "0.98.0"
   }

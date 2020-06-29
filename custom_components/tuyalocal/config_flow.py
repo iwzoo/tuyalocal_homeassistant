@@ -8,6 +8,8 @@ from copy import deepcopy
 
 from .const import CONF_UPDATE_INTERVAL, CONF_DEVICE_ID, CONF_LOCAL_KEY
 from .const import DEFAULT_UPDATE_INTERVAL, DEFAULT_ID, DOMAIN
+from .const import ATTR_CURRENT, ATTR_CURRENT_CONSUMPTION, ATTR_VOLTAGE
+
 
 import traceback
 
@@ -27,6 +29,9 @@ DATA_SCHEMA_USER = vol.Schema(
         vol.Required(CONF_DEVICE_ID): str,
         vol.Required(CONF_LOCAL_KEY): str,
         vol.Optional(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): vol.All(vol.Coerce(int), vol.Range(min=1)),
+        vol.Optional(ATTR_CURRENT, default=104): vol.All(vol.Coerce(int), vol.Range(min=0)),
+        vol.Optional(ATTR_CURRENT_CONSUMPTION, default=105): vol.All(vol.Coerce(int), vol.Range(min=0)),
+        vol.Optional(ATTR_VOLTAGE, default=106): vol.All(vol.Coerce(int), vol.Range(min=0)),
         vol.Optional(CONF_ADD_SWITCHES, default=False): bool
     }
 )
@@ -53,6 +58,9 @@ class LocalTuyaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._device_id = None
         self._local_key = None
         self._id = DEFAULT_ID
+        self._attr_current = 104
+        self._attr_current_consumption = 105
+        self._attr_voltage = 106
         self._switches = {}
         self._is_import = False
 
@@ -67,6 +75,9 @@ class LocalTuyaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             CONF_HOST: self._host,
             CONF_DEVICE_ID: self._device_id,
             CONF_LOCAL_KEY: self._local_key,
+            ATTR_CURRENT: self._attr_current,
+            ATTR_CURRENT_CONSUMPTION: self._attr_current_consumption,
+            ATTR_VOLTAGE: self._attr_voltage,
             CONF_SWITCHES: switches
         }        
 
@@ -108,6 +119,12 @@ class LocalTuyaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             self._device_id = str(user_input[CONF_DEVICE_ID])
             self._local_key = str(user_input[CONF_LOCAL_KEY])
             self._update_interval = user_input[CONF_UPDATE_INTERVAL]
+            if ATTR_CURRENT in user_input:
+                self._attr_current = user_input[ATTR_CURRENT]
+            if ATTR_CURRENT_CONSUMPTION in user_input:
+                self._attr_current_consumption = user_input[ATTR_CURRENT_CONSUMPTION]
+            if ATTR_VOLTAGE in user_input:
+                self._attr_voltage = user_input[ATTR_VOLTAGE]
 
         
             exists = await self.async_set_unique_id(self._device_id)            

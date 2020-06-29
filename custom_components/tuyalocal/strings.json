@@ -10,6 +10,9 @@
             "device_id": "[%key:common::config_flow::data::device_id%]",
             "local_key": "[%key:common::config_flow::data::local_key%]",
             "update_interval": "Time interval between updates. Default 10",
+            "current":  "Attribute ID for current",
+            "current_consumption": "Attribute ID for current consumption",
+            "voltage": "Attribute ID for voltage", 
             "need_add_switches": "Continue to add switches"
           }
         }, 

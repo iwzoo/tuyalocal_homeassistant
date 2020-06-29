@@ -8,3 +8,7 @@ CONF_LOCAL_KEY = 'local_key'
 CONF_UPDATE_INTERVAL = 'update_interval'
 
 DOMAIN = 'tuyalocal'
+
+ATTR_CURRENT = 'current'
+ATTR_CURRENT_CONSUMPTION = 'current_consumption'
+ATTR_VOLTAGE = 'voltage'

@@ -21,9 +21,7 @@ from .const import CONF_DEVICE_ID, CONF_LOCAL_KEY, CONF_UPDATE_INTERVAL
 
 from .const import DEFAULT_ID, DEFAULT_UPDATE_INTERVAL, DOMAIN
 
-ATTR_CURRENT = 'current'
-ATTR_CURRENT_CONSUMPTION = 'current_consumption'
-ATTR_VOLTAGE = 'voltage'
+from .const import ATTR_CURRENT, ATTR_CURRENT_CONSUMPTION, ATTR_VOLTAGE
 
 SWITCH_SCHEMA = vol.Schema({
     vol.Optional(CONF_ID, default=DEFAULT_ID): cv.string,
@@ -38,6 +36,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_DEVICE_ID): cv.string,
     vol.Required(CONF_LOCAL_KEY): cv.string,
     vol.Optional(CONF_ID, default=DEFAULT_ID): cv.string,
+    vol.Optional(ATTR_CURRENT, default=104): cv.positive_int,
+    vol.Optional(ATTR_CURRENT_CONSUMPTION, default=105): cv.positive_int,
+    vol.Optional(ATTR_VOLTAGE, default=106): cv.positive_int,
     vol.Optional(CONF_SWITCHES, default={}):
         vol.Schema({cv.slug: SWITCH_SCHEMA}),
 })
@@ -74,7 +75,10 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
                     outlet_device,
                     device_config.get(CONF_FRIENDLY_NAME, object_id),
                     device_config.get(CONF_ICON),
-                    device_config.get(CONF_ID)
+                    device_config.get(CONF_ID),
+                    config.get(ATTR_CURRENT),
+                    config.get(ATTR_CURRENT_CONSUMPTION),
+                    config.get(ATTR_VOLTAGE)
                 )
         )
 
@@ -85,7 +89,10 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
                     outlet_device,
                     name,
                     config.get(CONF_ICON),
-                    switch_id
+                    switch_id,
+                    config.get(ATTR_CURRENT),
+                    config.get(ATTR_CURRENT_CONSUMPTION),
+                    config.get(ATTR_VOLTAGE)
                 )
         )
     else:
@@ -94,7 +101,10 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
                     outlet_device,
                     config.get(CONF_DEVICE_ID),
                     config.get(CONF_ICON),
-                    switch_id
+                    switch_id,
+                    config.get(ATTR_CURRENT),
+                    config.get(ATTR_CURRENT_CONSUMPTION),
+                    config.get(ATTR_VOLTAGE)
                 )
         )
 
@@ -105,7 +115,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
 class TuyaCache:
     """Cache wrapper for pytuya.OutletDevice"""
 
-    def __init__(self, device, scan_interval=20):
+    def __init__(self, device, scan_interval=10):
         """Initialize the cache."""
         self._cached_status = ''
         self._cached_status_time = 0
@@ -144,13 +154,16 @@ class TuyaCache:
 class TuyaDevice(SwitchEntity):
     """Representation of a Tuya switch."""
 
-    def __init__(self, device, name, icon, switchid):
+    def __init__(self, device, name, icon, switchid, attr_current=104, attr_current_consumption=105, attr_voltage=106):
         """Initialize the Tuya switch."""
         self._device = device
         self._name = name
         self._state = False
         self._icon = icon
         self._switchid = switchid
+        self._attr_current = str(attr_current)
+        self._attr_current_consumption = str(attr_current_consumption)
+        self._attr_voltage = str(attr_voltage)
         self._status = self._device.status()
 
     @property
@@ -167,9 +180,9 @@ class TuyaDevice(SwitchEntity):
     def device_state_attributes(self):
         attrs = {}
         try:
-            attrs[ATTR_CURRENT] = "{}".format(self._status['dps']['104'])
-            attrs[ATTR_CURRENT_CONSUMPTION] = "{}".format(self._status['dps']['105']/10)
-            attrs[ATTR_VOLTAGE] = "{}".format(self._status['dps']['106']/10)
+            attrs[ATTR_CURRENT] = "{}".format(self._status['dps'][self._attr_current])
+            attrs[ATTR_CURRENT_CONSUMPTION] = "{}".format(self._status['dps'][self._attr_current_consumption]/10)
+            attrs[ATTR_VOLTAGE] = "{}".format(self._status['dps'][self._attr_voltage]/10)
         except KeyError:
             pass
         return attrs

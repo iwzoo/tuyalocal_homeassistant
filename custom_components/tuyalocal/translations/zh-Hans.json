@@ -1,0 +1,39 @@
+{
+    "config": {
+      "flow_title": "Tuya Local 设置",
+      "step": {
+        "user": {
+          "title": "本地连接Tuya设备",
+          "description": "输入Tuya设备信息.",
+          "data": {
+            "host": "IP 地址",
+            "device_id": "设备 ID",
+            "local_key": "本地密钥（Local Key）",
+            "update_interval": "更新间隔时间。默认：10",
+            "current":  "电流属性ID",
+            "current_consumption": "电量属性ID",
+            "voltage": "电压属性ID", 
+            "need_add_switches": "设置开关信息"
+          }
+        },
+        "add_switch": {
+          "title": "添加开关",
+          "description":"开关ID留空结束配置",
+          "data": {
+              "id": "开关ID",
+              "friendly_name": "开关名称",
+              "need_add_switches": "继续添加开关"
+          }
+      }
+    },
+      "abort": {
+        "conn_refused": "设备拒绝连接",
+        "conn_error_exists": "设备（ID）已存在"
+      },
+      "error": {
+        "conn_refused": "设备拒绝连接",
+        "conn_error_exists": "设备（ID）已存在"
+      }
+    }
+  }
+  

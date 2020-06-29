@@ -5,7 +5,7 @@ For more details about this platform, please refer to the documentation at
 https://home-assistant.io/components/switch.tuya/
 """
 import voluptuous as vol
-from homeassistant.components.switch import SwitchDevice, PLATFORM_SCHEMA
+from homeassistant.components.switch import PLATFORM_SCHEMA, SwitchEntity
 from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_ID, CONF_SWITCHES, CONF_FRIENDLY_NAME, CONF_ICON)
 import homeassistant.helpers.config_validation as cv
 from time import time
@@ -42,6 +42,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
         vol.Schema({cv.slug: SWITCH_SCHEMA}),
 })
 
+
+async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
+    _LOGGER.debug("async_setup_platform")
 
 async def async_setup_entry(hass, config_entry, async_add_devices):
     config = config_entry.data
@@ -138,7 +141,7 @@ class TuyaCache:
         finally:
             self._lock.release()
 
-class TuyaDevice(SwitchDevice):
+class TuyaDevice(SwitchEntity):
     """Representation of a Tuya switch."""
 
     def __init__(self, device, name, icon, switchid):

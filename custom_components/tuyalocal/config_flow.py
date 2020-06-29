@@ -108,13 +108,21 @@ class LocalTuyaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             self._local_key = str(user_input[CONF_LOCAL_KEY])
             self._update_interval = user_input[CONF_UPDATE_INTERVAL]
 
-            if not self._is_import:
-                exists = await self.async_set_unique_id(self._device_id)            
-                if exists is not None:
-                    errors["base"] = RESULT_ERROR_ALEADY_EXISTS
-                    return self.async_show_form(
-                        step_id="user", data_schema=DATA_SCHEMA_USER, errors=errors
-                    )
+        
+            exists = await self.async_set_unique_id(self._device_id)            
+            if exists is not None:
+                if self._is_import:
+                    return self.async_abort(reason=RESULT_ERROR_ALEADY_EXISTS)
+                errors["base"] = RESULT_ERROR_ALEADY_EXISTS
+                return self.async_show_form(
+                    step_id="user", data_schema=DATA_SCHEMA_USER, errors=errors
+                )
+            
+            for entry in self._async_current_entries():
+                if entry.version !=  1:
+                    continue
+                if entry.data[CONF_DEVICE_ID] == self._device_id:
+                    return self.async_abort(reason=RESULT_ERROR_ALEADY_EXISTS)
                 
             result = await self.hass.async_add_executor_job(self._try_connect)
 

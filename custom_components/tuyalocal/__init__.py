@@ -1,5 +1,6 @@
 """The Tuya local integration."""
 from homeassistant.config_entries import SOURCE_IMPORT
+from homeassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from homeassistant import config_entries
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
@@ -14,8 +15,9 @@ from .const import (DOMAIN, CONF_DEVICE_ID, CONF_LOCAL_KEY, CONF_UPDATE_INTERVAL
 _LOGGER = logging.getLogger(__name__)
 
 
+
 async def async_setup(hass, config):
-    switch_config = config.get('switch')
+    switch_config = config.get(SWITCH_DOMAIN)
 
     if switch_config is not None:
         conf = next((item for item in switch_config if item['platform']==DOMAIN),None)
@@ -29,7 +31,7 @@ async def async_setup(hass, config):
 
 async def async_setup_entry(hass, config_entry):
     hass.async_add_job(
-        hass.config_entries.async_forward_entry_setup(config_entry, 'switch')
+        hass.config_entries.async_forward_entry_setup(config_entry, SWITCH_DOMAIN)
     )
 
     return True

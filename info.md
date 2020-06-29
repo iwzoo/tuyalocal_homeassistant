@@ -1,0 +1,1 @@
+Tuya Local component

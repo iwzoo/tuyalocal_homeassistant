@@ -40,6 +40,9 @@ switch:
     local_key: !secret local_key  # (required) local key of the device
     device_id: !secret device_id  # (required) device id 
     update_interval: 10 # (optional) frequency to update the status in seconds, default: 10
+    current: 5  # (optional) attribute id for current
+    current_consumption: 6 #(optional) attribute id for current consumption
+    voltage: 7 #(optional) attribute id for voltage
     switches: # (optional) 
       switch1:
         friendly_name: tuya switch restroom
